@@ -1,7 +1,9 @@
 package com.capgemini.entities;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -22,12 +24,12 @@ import org.springframework.stereotype.Component;
 public class Category {
 	
 	@Id
-	@GeneratedValue (strategy = GenerationType.IDENTITY)
+	@GeneratedValue (strategy = GenerationType.AUTO)
 	@Column(name = "category_id")
 	private int categoryId;
 	
 	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
-	private List<Page> pageList = new ArrayList<>();
+	private Set<Page> pageList = new HashSet<>();
 	
 	@Column(name = "category_title", nullable = false, length = 50)
 	private String categoryTitle;
@@ -51,14 +53,21 @@ public class Category {
 		this.categoryTitle = categoryTitle;
 	}
 
-	public List<Page> getPageList() {
+
+	public Set<Page> getPageList() {
 		return pageList;
 	}
 
-	public void setPageList(List<Page> pageList) {
+	public void setPageList(Set<Page> pageList) {
 		this.pageList = pageList;
 	}
+
 	
+	public void addPage(Page page) {
+		page.setCategory(this); // this will avoid nested cascade
+		this.getPageList().add(page);
+	}
+
 	
 	
 }

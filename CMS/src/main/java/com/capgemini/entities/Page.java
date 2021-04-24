@@ -1,5 +1,7 @@
 package com.capgemini.entities;
 
+import java.io.Serializable;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,11 +20,13 @@ import org.springframework.stereotype.Component;
 @Scope(scopeName = "prototype")
 @Entity
 @Table(name = "page_table")
-public class Page {
+public class Page implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@Column(name = "page_id")
-	@GeneratedValue (strategy = GenerationType.IDENTITY)
+	@GeneratedValue (strategy = GenerationType.AUTO)
 	private int pageId;
 	
 	@Column(name = "page_title")
@@ -30,7 +34,7 @@ public class Page {
 	
 	@Autowired
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "categoryTitle")
+	@JoinColumn(name = "categoryId")
 	private Category category;
 	
 	@Autowired
@@ -42,6 +46,19 @@ public class Page {
 	private String content;
 	
 	public Page() {}
+	
+	
+
+	public Page(int pageId, String pageTitle, Category category, User author, String content) {
+		super();
+		this.pageId = pageId;
+		this.pageTitle = pageTitle;
+		this.category = category;
+		this.author = author;
+		this.content = content;
+	}
+
+
 
 	public int getPageId() {
 		return pageId;
@@ -82,6 +99,15 @@ public class Page {
 	public void setContent(String content) {
 		this.content = content;
 	}
+
+
+
+	@Override
+	public String toString() {
+		return "Page [pageId=" + pageId + ", pageTitle=" + pageTitle + ", category=" + category + ", author=" + author
+				+ ", content=" + content + "]";
+	}
+	
 	
 	
 }
