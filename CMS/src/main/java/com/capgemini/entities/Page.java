@@ -30,7 +30,7 @@ public class Page {
 	
 	@Autowired
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "categoryTitle")
+	@JoinColumn(name = "categoryId")
 	private Category category;
 	
 	@Autowired

@@ -59,6 +59,11 @@ public class Category {
 		this.pageList = pageList;
 	}
 	
+	public void addPage(Page page) {
+		page.setCategory(this); // this will avoid nested cascade
+		this.getPageList().add(page);
+	}
+
 	
 	
 }
